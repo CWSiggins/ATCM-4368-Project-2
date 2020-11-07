@@ -30,6 +30,22 @@ public class Deck<T> where T : Card
         }
     }
 
+    public int FirstIndex
+    {
+        get
+        {
+            return 0;
+        }
+    }
+
+    public int MiddleIndex
+    {
+        get
+        {
+            return 1;
+        }
+    }
+
     private int GetIndexFromPosition(DeckPosition position)
     {
         int newPositionIndex = 0;
@@ -101,11 +117,11 @@ public class Deck<T> where T : Card
     //draws next item (top of deck). Default to top
     public T Draw(DeckPosition position = DeckPosition.Top)
     {
-        if (IsEmpty)
+        /*if (IsEmpty)
         {
             Debug.LogWarning("Deck: Cannot draw new item - deck is empty!");
             return default;
-        }
+        }*/
 
         int targetIndex = GetIndexFromPosition(position);
 
@@ -166,7 +182,7 @@ public class Deck<T> where T : Card
             //random card swaps places with our current index
             _cards[randomIndex] = _cards[currentIndex];
             _cards[currentIndex] = randomCard;
-            //move downwards to nect card index
+            //move downwards to next card index
         }
     }
 }

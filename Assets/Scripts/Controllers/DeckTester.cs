@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DeckTester : MonoBehaviour
 {
@@ -11,25 +12,38 @@ public class DeckTester : MonoBehaviour
 
     Deck<AbilityCard> _playerHand = new Deck<AbilityCard>();
 
+    [SerializeField] Button card1Button;
+    [SerializeField] Button card2Button;
+    [SerializeField] Button card3Button;
+    [SerializeField] Button drawButton;
+    [SerializeField] Text deckCount;
+    [SerializeField] Text discardCount;
+
     private void Start()
     {
         SetupAbilityDeck();
+
+        if (_playerHand.Count < 3)
+        {
+            drawButton.onClick.AddListener(Draw);
+        }
+
+        card1Button.onClick.AddListener(PlayCard1);
+        card2Button.onClick.AddListener(PlayCard2);
+        card3Button.onClick.AddListener(PlayCard3);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Draw();
-        }
+
         if (Input.GetKeyDown(KeyCode.W))
         {
             PrintPlayerHand();
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PlayTopCard();
-        }
+
+        deckCount.text = ("" + _abilityDeck.Count);
+        discardCount.text = ("" + _abilityDiscard.Count);
+
     }
 
     private void SetupAbilityDeck()
@@ -49,7 +63,35 @@ public class DeckTester : MonoBehaviour
         Debug.Log("Draw card: " + newCard.Name);
         _playerHand.Add(newCard, DeckPosition.Top);
 
-        _abilityCardView.Display(newCard);
+        if(_playerHand.Count > 0)
+        {
+            AbilityCard playerCard1 = _playerHand.GetCard(0);
+            _abilityCardView.Display1(playerCard1);
+        }
+
+        if (_playerHand.Count > 1)
+        {
+            AbilityCard playerCard2 = _playerHand.GetCard(1);
+            _abilityCardView.Display2(playerCard2);
+        }
+
+        if (_playerHand.Count > 2)
+        {
+            AbilityCard playerCard3 = _playerHand.GetCard(2);
+            _abilityCardView.Display3(playerCard3);
+        }
+
+        if (_abilityDeck.Count == 0)
+        {
+            foreach(AbilityCardData abilityData in _abilityDeckConfig)
+            {
+                AbilityCard reAddAbilityCard = new AbilityCard(abilityData);
+                _abilityDeck.Add(reAddAbilityCard);
+                _abilityDiscard.Remove(_abilityDiscard.Count);
+            }
+            _abilityDeck.Shuffle();
+        }
+
     }
 
     private void PrintPlayerHand()
@@ -60,13 +102,42 @@ public class DeckTester : MonoBehaviour
         }
     }
 
-    void PlayTopCard()
+    void PlayCard1()
     {
-        AbilityCard targetCard = _playerHand.TopItem;
-        targetCard.Play();
-        //TODO consider expanding Remove to accept a deck position
-        _playerHand.Remove(_playerHand.LastIndex);
-        _abilityDiscard.Add(targetCard);
-        Debug.Log("Card added to discard: " + targetCard.Name);
+        if(_playerHand.Count >= 1)
+        {
+            AbilityCard playerCard1 = _playerHand.GetCard(0);
+            playerCard1.Play();
+            //TODO consider expanding Remove to accept a deck position
+            _playerHand.Remove(_playerHand.FirstIndex);
+            _abilityDiscard.Add(playerCard1);
+            Debug.Log("Card added to discard: " + playerCard1.Name);
+        }
+    }
+
+    void PlayCard2()
+    {
+        if(_playerHand.Count >= 2)
+        {
+            AbilityCard playerCard2 = _playerHand.GetCard(1);
+            playerCard2.Play();
+            //TODO consider expanding Remove to accept a deck position
+            _playerHand.Remove(_playerHand.MiddleIndex);
+            _abilityDiscard.Add(playerCard2);
+            Debug.Log("Card added to discard: " + playerCard2.Name);
+        }
+    }
+
+    void PlayCard3()
+    {
+        if(_playerHand.Count == 3)
+        {
+            AbilityCard playerCard3 = _playerHand.GetCard(2);
+            playerCard3.Play();
+            //TODO consider expanding Remove to accept a deck position
+            _playerHand.Remove(_playerHand.LastIndex);
+            _abilityDiscard.Add(playerCard3);
+            Debug.Log("Card added to discard: " + playerCard3.Name);
+        }
     }
 }

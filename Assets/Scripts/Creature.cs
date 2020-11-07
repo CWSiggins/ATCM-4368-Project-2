@@ -1,15 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Creature : MonoBehaviour, ITargetable, IDamageable
 {
-    int _currentHealth = 10;
+    public int _currentHealth = 10;
+
+    [SerializeField] Text _healthText;
+
+    public void Update()
+    {
+        _healthText.text = ("Opponent Health: " + _currentHealth);
+        if(_currentHealth <= 0)
+        {
+            _currentHealth = 0;
+        }
+    }
 
     public void Kill()
     {
         Debug.Log("Kill the creature!");
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     public void TakeDamage(int damage)

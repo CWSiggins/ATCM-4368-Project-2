@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4db9d95b096f8074b9aa53b4fa028df3, type: 3}
-  m_Name: Attack_PlayEffect
+  m_Script: {fileID: 11500000, guid: 6fb9e003e9b97884aa8af8b074b481a8, type: 3}
+  m_Name: Ability_Heal
   m_EditorClassIdentifier: 
-  _damageAmount: 10
+  _name: Med-Pack
+  _cost: 1
+  _graphic: {fileID: 21300000, guid: 0c811f8c6ac2cf9428e1d098175d8433, type: 3}
+  _playEffect: {fileID: 11400000, guid: de74de37f299e084dba68db386f9e908, type: 2}

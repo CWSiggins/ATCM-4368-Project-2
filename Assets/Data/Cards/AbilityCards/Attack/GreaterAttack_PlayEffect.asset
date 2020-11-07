@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4db9d95b096f8074b9aa53b4fa028df3, type: 3}
-  m_Name: Attack_PlayEffect
+  m_Name: GreaterAttack_PlayEffect
   m_EditorClassIdentifier: 
-  _damageAmount: 10
+  _damageAmount: 15

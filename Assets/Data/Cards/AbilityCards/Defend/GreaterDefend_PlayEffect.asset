@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4db9d95b096f8074b9aa53b4fa028df3, type: 3}
-  m_Name: Attack_PlayEffect
+  m_Script: {fileID: 11500000, guid: d56414dd0755af14d866f8cb8c8bb5ce, type: 3}
+  m_Name: GreaterDefend_PlayEffect
   m_EditorClassIdentifier: 
-  _damageAmount: 10
+  _amount: 15
