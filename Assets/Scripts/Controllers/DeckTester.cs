@@ -23,10 +23,9 @@ public class DeckTester : MonoBehaviour
     {
         SetupAbilityDeck();
 
-        if (_playerHand.Count < 3)
-        {
-            drawButton.onClick.AddListener(Draw);
-        }
+
+        drawButton.onClick.AddListener(Draw);
+        
 
         card1Button.onClick.AddListener(PlayCard1);
         card2Button.onClick.AddListener(PlayCard2);
@@ -59,9 +58,12 @@ public class DeckTester : MonoBehaviour
 
     private void Draw()
     {
-        AbilityCard newCard = _abilityDeck.Draw(DeckPosition.Top);
-        Debug.Log("Draw card: " + newCard.Name);
-        _playerHand.Add(newCard, DeckPosition.Top);
+        if (_playerHand.Count < 3)
+        {
+            AbilityCard newCard = _abilityDeck.Draw(DeckPosition.Top);
+            Debug.Log("Draw card: " + newCard.Name);
+            _playerHand.Add(newCard, DeckPosition.Top);
+        }
 
         if(_playerHand.Count > 0)
         {
@@ -83,13 +85,12 @@ public class DeckTester : MonoBehaviour
 
         if (_abilityDeck.Count == 0)
         {
-            foreach(AbilityCardData abilityData in _abilityDeckConfig)
+            for(int i = _abilityDiscard.Count; i >= 0; i--)
             {
-                AbilityCard reAddAbilityCard = new AbilityCard(abilityData);
-                _abilityDeck.Add(reAddAbilityCard);
-                _abilityDiscard.Remove(_abilityDiscard.Count);
+                AbilityCard reAdd = _abilityDiscard.Draw(DeckPosition.Top);
+                _abilityDeck.Add(reAdd, DeckPosition.Top);
+                _abilityDeck.Shuffle();
             }
-            _abilityDeck.Shuffle();
         }
 
     }
@@ -122,7 +123,7 @@ public class DeckTester : MonoBehaviour
             AbilityCard playerCard2 = _playerHand.GetCard(1);
             playerCard2.Play();
             //TODO consider expanding Remove to accept a deck position
-            _playerHand.Remove(_playerHand.MiddleIndex);
+            _playerHand.Remove(2);
             _abilityDiscard.Add(playerCard2);
             Debug.Log("Card added to discard: " + playerCard2.Name);
         }
