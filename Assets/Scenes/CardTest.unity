@@ -5495,13 +5495,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 67ac4b2b67fd75342b99ed4de194fbeb, type: 2}
   - {fileID: 11400000, guid: 4eb6d805937c556488fe1e1f623b06f1, type: 2}
   _abilityCardView: {fileID: 243603988}
+  card1Panel: {fileID: 243603986}
+  card2Panel: {fileID: 878887576}
+  card3Panel: {fileID: 1389373751}
   card1Button: {fileID: 337768478}
   card2Button: {fileID: 1255739136}
   card3Button: {fileID: 2062366201}
   drawButton: {fileID: 961967762}
   deckCount: {fileID: 296925392}
   discardCount: {fileID: 1107558701}
-  menu: {fileID: 0}
 --- !u!4 &1928184135
 Transform:
   m_ObjectHideFlags: 0

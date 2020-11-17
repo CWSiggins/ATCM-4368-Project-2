@@ -12,6 +12,9 @@ public class DeckTester : MonoBehaviour
 
     Deck<AbilityCard> _playerHand = new Deck<AbilityCard>();
 
+    [SerializeField] GameObject card1Panel;
+    [SerializeField] GameObject card2Panel;
+    [SerializeField] GameObject card3Panel;
     [SerializeField] Button card1Button;
     [SerializeField] Button card2Button;
     [SerializeField] Button card3Button;
@@ -25,7 +28,10 @@ public class DeckTester : MonoBehaviour
 
 
         drawButton.onClick.AddListener(Draw);
-        
+
+        card1Panel.SetActive(false);
+        card2Panel.SetActive(false);
+        card3Panel.SetActive(false);
 
         card1Button.onClick.AddListener(PlayCard1);
         card2Button.onClick.AddListener(PlayCard2);
@@ -43,6 +49,7 @@ public class DeckTester : MonoBehaviour
         deckCount.text = ("" + _abilityDeck.Count);
         discardCount.text = ("" + _abilityDiscard.Count);
 
+        Display();
     }
 
     private void SetupAbilityDeck()
@@ -56,6 +63,48 @@ public class DeckTester : MonoBehaviour
         _abilityDeck.Shuffle();
     }
 
+    private void Display()
+    {
+        if (_playerHand.Count == 0)
+        {
+            card1Panel.SetActive(false);
+            card2Panel.SetActive(false);
+            card3Panel.SetActive(false);
+        }
+
+        if (_playerHand.Count >= 1)
+        {
+            AbilityCard playerCard1 = _playerHand.GetCard(0);
+            card1Panel.SetActive(true);
+            _abilityCardView.Display1(playerCard1);
+        }
+
+        if (_playerHand.Count == 1)
+        {
+            card2Panel.SetActive(false);
+            card3Panel.SetActive(false);
+        }
+
+        if (_playerHand.Count >= 2)
+        {
+            AbilityCard playerCard2 = _playerHand.GetCard(1);
+            card2Panel.SetActive(true);
+            _abilityCardView.Display2(playerCard2);
+        }
+
+        if (_playerHand.Count == 2)
+        {
+            card3Panel.SetActive(false);
+        }
+
+        if (_playerHand.Count == 3)
+        {
+            AbilityCard playerCard3 = _playerHand.GetCard(2);
+            _abilityCardView.Display3(playerCard3);
+            card3Panel.SetActive(true);
+        }
+    }
+
     private void Draw()
     {
         if (_playerHand.Count < 3)
@@ -63,24 +112,6 @@ public class DeckTester : MonoBehaviour
             AbilityCard newCard = _abilityDeck.Draw(DeckPosition.Top);
             Debug.Log("Draw card: " + newCard.Name);
             _playerHand.Add(newCard, DeckPosition.Top);
-        }
-
-        if(_playerHand.Count > 0)
-        {
-            AbilityCard playerCard1 = _playerHand.GetCard(0);
-            _abilityCardView.Display1(playerCard1);
-        }
-
-        if (_playerHand.Count > 1)
-        {
-            AbilityCard playerCard2 = _playerHand.GetCard(1);
-            _abilityCardView.Display2(playerCard2);
-        }
-
-        if (_playerHand.Count > 2)
-        {
-            AbilityCard playerCard3 = _playerHand.GetCard(2);
-            _abilityCardView.Display3(playerCard3);
         }
 
         if (_abilityDeck.Count == 0)
@@ -123,7 +154,7 @@ public class DeckTester : MonoBehaviour
             AbilityCard playerCard2 = _playerHand.GetCard(1);
             playerCard2.Play();
             //TODO consider expanding Remove to accept a deck position
-            _playerHand.Remove(2);
+            _playerHand.Remove(1);
             _abilityDiscard.Add(playerCard2);
             Debug.Log("Card added to discard: " + playerCard2.Name);
         }
