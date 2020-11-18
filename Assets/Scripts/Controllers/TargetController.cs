@@ -14,6 +14,8 @@ public class TargetController : MonoBehaviour
     [SerializeField] Button _targetEnemy;
     [SerializeField] Button _targetSelf;
 
+    public bool targetSelected;
+
     private void Start()
     {
         _targetEnemy.onClick.AddListener(TargetEnemy);
@@ -29,6 +31,7 @@ public class TargetController : MonoBehaviour
             Debug.Log("New target acquired!");
             CurrentTarget = possibleTarget;
             _enemy.Target();
+            targetSelected = true;
         }
     }
 
@@ -41,6 +44,7 @@ public class TargetController : MonoBehaviour
             Debug.Log("New target acquired!");
             CurrentTarget = possibleTarget;
             _player.Target();
+            targetSelected = true;
         }
     }
 }

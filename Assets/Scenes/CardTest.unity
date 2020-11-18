@@ -4812,6 +4812,7 @@ MonoBehaviour:
   _playerTurnTextUI: {fileID: 1325580993}
   _player: {fileID: 82622713}
   _opponent: {fileID: 1275105769}
+  _deck: {fileID: 1928184134}
 --- !u!114 &1644611498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5504,6 +5505,8 @@ MonoBehaviour:
   drawButton: {fileID: 961967762}
   deckCount: {fileID: 296925392}
   discardCount: {fileID: 1107558701}
+  target: {fileID: 1969624556}
+  _cardIsPlayed: 0
 --- !u!4 &1928184135
 Transform:
   m_ObjectHideFlags: 0
@@ -5644,6 +5647,7 @@ MonoBehaviour:
   _player: {fileID: 82622713}
   _targetEnemy: {fileID: 502313331}
   _targetSelf: {fileID: 257371326}
+  targetSelected: 0
 --- !u!1 &2033701584
 GameObject:
   m_ObjectHideFlags: 0

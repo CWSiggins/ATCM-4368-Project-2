@@ -22,10 +22,16 @@ public class DeckTester : MonoBehaviour
     [SerializeField] Text deckCount;
     [SerializeField] Text discardCount;
 
+    [SerializeField] TargetController target;
+
+    public bool _cardIsPlayed;
+
     private void Start()
     {
         SetupAbilityDeck();
 
+        target.targetSelected = false;
+        _cardIsPlayed = false;
 
         drawButton.onClick.AddListener(Draw);
 
@@ -136,40 +142,70 @@ public class DeckTester : MonoBehaviour
 
     void PlayCard1()
     {
-        if(_playerHand.Count >= 1)
+        if (target.targetSelected == true && _cardIsPlayed == false)
         {
-            AbilityCard playerCard1 = _playerHand.GetCard(0);
-            playerCard1.Play();
-            //TODO consider expanding Remove to accept a deck position
-            _playerHand.Remove(_playerHand.FirstIndex);
-            _abilityDiscard.Add(playerCard1);
-            Debug.Log("Card added to discard: " + playerCard1.Name);
+            if (_playerHand.Count >= 1)
+            {
+                AbilityCard playerCard1 = _playerHand.GetCard(0);
+                playerCard1.Play();
+                //TODO consider expanding Remove to accept a deck position
+                _playerHand.Remove(_playerHand.FirstIndex);
+                _abilityDiscard.Add(playerCard1);
+                Debug.Log("Card added to discard: " + playerCard1.Name);
+                target.targetSelected = false;
+                _cardIsPlayed = true;
+            }
+        }
+        else
+        {
+            Debug.Log("No target is selected...");
+            Debug.Log("Or you have already played a card this turn");
         }
     }
 
     void PlayCard2()
     {
-        if(_playerHand.Count >= 2)
+        if(target.targetSelected == true && _cardIsPlayed == false) 
+        { 
+            if(_playerHand.Count >= 2)
+            {
+                AbilityCard playerCard2 = _playerHand.GetCard(1);
+                playerCard2.Play();
+                //TODO consider expanding Remove to accept a deck position
+                _playerHand.Remove(1);
+                _abilityDiscard.Add(playerCard2);
+                Debug.Log("Card added to discard: " + playerCard2.Name);
+                target.targetSelected = false;
+                _cardIsPlayed = true;
+            }
+        }
+        else
         {
-            AbilityCard playerCard2 = _playerHand.GetCard(1);
-            playerCard2.Play();
-            //TODO consider expanding Remove to accept a deck position
-            _playerHand.Remove(1);
-            _abilityDiscard.Add(playerCard2);
-            Debug.Log("Card added to discard: " + playerCard2.Name);
+            Debug.Log("No target is selected...");
+            Debug.Log("Or you have already played a card this turn");
         }
     }
 
     void PlayCard3()
     {
-        if(_playerHand.Count == 3)
+        if(target.targetSelected == true && _cardIsPlayed == false)
         {
-            AbilityCard playerCard3 = _playerHand.GetCard(2);
-            playerCard3.Play();
-            //TODO consider expanding Remove to accept a deck position
-            _playerHand.Remove(_playerHand.LastIndex);
-            _abilityDiscard.Add(playerCard3);
-            Debug.Log("Card added to discard: " + playerCard3.Name);
+            if (_playerHand.Count == 3)
+            {
+                AbilityCard playerCard3 = _playerHand.GetCard(2);
+                playerCard3.Play();
+                //TODO consider expanding Remove to accept a deck position
+                _playerHand.Remove(_playerHand.LastIndex);
+                _abilityDiscard.Add(playerCard3);
+                Debug.Log("Card added to discard: " + playerCard3.Name);
+                target.targetSelected = false;
+                _cardIsPlayed = true;
+            }
+        }
+        else
+        {
+            Debug.Log("No target is selected...");
+            Debug.Log("Or you have already played a card this turn");
         }
     }
 }

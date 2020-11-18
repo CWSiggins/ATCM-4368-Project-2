@@ -13,11 +13,12 @@ public class PlayerTurnCardGameState : CardGameState
 
     [SerializeField] Creature _opponent;
 
+    [SerializeField] DeckTester _deck;
     public override void Enter()
     {
         Debug.Log("Player Turn: ...Entering");
         _playerTurnTextUI.gameObject.SetActive(true);
-
+        _deck._cardIsPlayed = false;
         _playerTurnCount++;
         _playerTurnTextUI.text = "Player Turn: " + _playerTurnCount.ToString();
         //hook into events
