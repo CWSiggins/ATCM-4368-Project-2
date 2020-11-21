@@ -11,6 +11,7 @@ public class DeckTester : MonoBehaviour
     Deck<AbilityCard> _abilityDiscard = new Deck<AbilityCard>();
 
     Deck<AbilityCard> _playerHand = new Deck<AbilityCard>();
+    Deck<AbilityCard> _enemyHand = new Deck<AbilityCard>();
 
     [SerializeField] GameObject card1Panel;
     [SerializeField] GameObject card2Panel;
@@ -132,11 +133,31 @@ public class DeckTester : MonoBehaviour
 
     }
 
+    public void EnemyDraw()
+    {
+        while(_enemyHand.Count < 3)
+        {
+            AbilityCard newCard = _abilityDeck.Draw(DeckPosition.Top);
+            Debug.Log("Enemy draws card: " + newCard.Name);
+            _enemyHand.Add(newCard, DeckPosition.Top);
+        }
+
+        if (_abilityDeck.Count == 0)
+        {
+            for (int i = _abilityDiscard.Count; i >= 0; i--)
+            {
+                AbilityCard reAdd = _abilityDiscard.Draw(DeckPosition.Top);
+                _abilityDeck.Add(reAdd, DeckPosition.Top);
+                _abilityDeck.Shuffle();
+            }
+        }
+    }
+
     private void PrintPlayerHand()
     {
-        for (int i = 0; i < _playerHand.Count; i++)
+        for (int i = 0; i < _enemyHand.Count; i++)
         {
-            Debug.Log("Player Hand Card: " + _playerHand.GetCard(i).Name);
+            Debug.Log("Enemy Hand Card: " + _enemyHand.GetCard(i).Name);
         }
     }
 

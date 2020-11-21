@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerStats : MonoBehaviour, ITargetable, IHealable
+public class PlayerStats : MonoBehaviour, ITargetable, IHealable, IDamageable
 {
     [SerializeField] int _maxHealth;
     public int _currentHealth;
@@ -11,12 +11,6 @@ public class PlayerStats : MonoBehaviour, ITargetable, IHealable
 
     [SerializeField] Text _healthText;
     [SerializeField] Text _shieldText;
-    [SerializeField] Button _damageButton;
-
-    public void Start()
-    {
-        _damageButton.onClick.AddListener(Kill);
-    }
 
     public void Update()
     {
@@ -39,12 +33,34 @@ public class PlayerStats : MonoBehaviour, ITargetable, IHealable
         _shield += amount;
     }
 
+    public void TakeDamage(int damage)
+    {
+        if(_shield > 0)
+        {
+            _shield -= damage;
+            if(_shield <= 0)
+            {
+                _shield = 0;
+                Debug.Log("Your shield is depleted");
+            }
+        }
+        else
+        {
+            _currentHealth -= damage;
+            Debug.Log("Took damage. Remaining Health:  " + _currentHealth);
+        }
+        if (_currentHealth <= 0)
+        {
+            Kill();
+        }
+    }
+
     public void Target()
     {
         Debug.Log("Player has been targeted.");
     }
 
-    private void Kill()
+    public void Kill()
     {
         _currentHealth = 0;
     }

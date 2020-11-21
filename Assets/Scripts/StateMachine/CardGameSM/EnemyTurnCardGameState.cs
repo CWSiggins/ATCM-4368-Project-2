@@ -14,11 +14,14 @@ public class EnemyTurnCardGameState : CardGameState
 
     [SerializeField] Creature _opponent;
 
+    [SerializeField] DeckTester _deck;
+
     public override void Enter()
     {
         Debug.Log("Enemy Turn: ...Enter");
         EnemyTurnBegan?.Invoke();
 
+        _deck.EnemyDraw();
         StartCoroutine(EnemyThinkingRoutine(_pauseDuration));
     }
 
