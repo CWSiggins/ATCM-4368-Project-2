@@ -14,7 +14,7 @@ public class Creature : MonoBehaviour, ITargetable, IDamageable, IHealable
     public void Update()
     {
         _healthText.text = ("Opponent Health: " + _currentHealth);
-        _shieldText.text = ("Opponent Defense: " + _shield);
+        _shieldText.text = ("Opponent Defense: " + _shield.ToString());
         if (_currentHealth <= 0)
         {
             _currentHealth = 0;
