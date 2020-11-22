@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour, ITargetable, IHealable, IDamageable
 {
-    [SerializeField] int _maxHealth;
     public int _currentHealth;
     public int _shield;
 
@@ -22,10 +21,6 @@ public class PlayerStats : MonoBehaviour, ITargetable, IHealable, IDamageable
     {
         _currentHealth += amount;
         Debug.Log("Healed. Remaining Health:  " + _currentHealth);
-        if (_currentHealth >= _maxHealth)
-        {
-            _currentHealth = _maxHealth;
-        }
     }
 
     public void Shield(int amount)

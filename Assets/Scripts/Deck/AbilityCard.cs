@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class AbilityCard : Card
 {
-    public int Cost { get; private set; }
+    public string Type { get; private set; }
     public Sprite Graphic { get; private set; }
     public CardPlayEffect PlayEffect { get; private set; }
 
     public AbilityCard(AbilityCardData Data)
     {
         Name = Data.Name;
-        Cost = Data.Cost;
+        Type = Data.Type;
         Graphic = Data.Graphic;
         PlayEffect = Data.PlayEffect;
     }

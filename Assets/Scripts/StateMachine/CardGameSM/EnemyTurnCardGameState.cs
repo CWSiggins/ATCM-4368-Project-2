@@ -47,7 +47,7 @@ public class EnemyTurnCardGameState : CardGameState
     {
         Debug.Log("Enemy Thinking...");
         yield return new WaitForSeconds(pauseDuration);
-
+        _deck.EnemyPlay();
         Debug.Log("Enemy performs action");
         EnemyTurnEnded?.Invoke();
         //Enemy turn over. Go back to Player.

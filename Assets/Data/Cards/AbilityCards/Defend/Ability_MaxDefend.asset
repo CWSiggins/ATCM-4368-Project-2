@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Ability_MaxDefend
   m_EditorClassIdentifier: 
   _name: Impenetrable Shield
-  _cost: 1
+  _type: Defend
   _graphic: {fileID: 21300000, guid: fd57eea6080501f48b40107678962054, type: 3}
   _playEffect: {fileID: 11400000, guid: 0ad0b9fe4bf372342a6f0bbfe2e45546, type: 2}

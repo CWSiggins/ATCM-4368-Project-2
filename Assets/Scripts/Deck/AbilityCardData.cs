@@ -8,8 +8,8 @@ public class AbilityCardData : ScriptableObject
     [SerializeField] string _name = "...";
     public string Name => _name;
 
-    [SerializeField] int _cost = 1;
-    public int Cost => _cost;
+    [SerializeField] string _type = "...";
+    public string Type => _type;
 
     [SerializeField] Sprite _graphic = null;
     public Sprite Graphic => _graphic;

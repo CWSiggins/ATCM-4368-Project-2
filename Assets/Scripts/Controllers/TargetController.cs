@@ -19,10 +19,10 @@ public class TargetController : MonoBehaviour
     private void Start()
     {
         _targetEnemy.onClick.AddListener(TargetEnemy);
-        _targetSelf.onClick.AddListener(TargetSelf);
+        _targetSelf.onClick.AddListener(TargetPlayer);
     }
 
-    private void TargetEnemy()
+    public void TargetEnemy()
     {
         //target the object if it is targetable
         ITargetable possibleTarget = _enemy.GetComponent<ITargetable>();
@@ -35,7 +35,7 @@ public class TargetController : MonoBehaviour
         }
     }
 
-    private void TargetSelf()
+    public void TargetPlayer()
     {
         //target the object if it is targetable
         ITargetable possibleTarget = _player.GetComponent<ITargetable>();

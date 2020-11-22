@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Ability_ChargedAttack
   m_EditorClassIdentifier: 
   _name: Charged Laser Gun
-  _cost: 1
+  _type: Attack
   _graphic: {fileID: 21300000, guid: 6fc0969dabeecad4b9ced56dd99f6ac8, type: 3}
   _playEffect: {fileID: 11400000, guid: 447886e7235edd342bd83d584e4af2b3, type: 2}

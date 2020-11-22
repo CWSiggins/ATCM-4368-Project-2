@@ -50,7 +50,7 @@ public class DeckTester : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            PrintPlayerHand();
+            PrintEnemyHand();
         }
 
         deckCount.text = ("" + _abilityDeck.Count);
@@ -144,7 +144,7 @@ public class DeckTester : MonoBehaviour
 
         if (_abilityDeck.Count == 0)
         {
-            for (int i = _abilityDiscard.Count; i >= 0; i--)
+            for (int i = _abilityDiscard.Count; i > 0; i--)
             {
                 AbilityCard reAdd = _abilityDiscard.Draw(DeckPosition.Top);
                 _abilityDeck.Add(reAdd, DeckPosition.Top);
@@ -153,7 +153,29 @@ public class DeckTester : MonoBehaviour
         }
     }
 
-    private void PrintPlayerHand()
+    public void EnemyPlay()
+    {
+        if(_enemyHand.Count == 3)
+        {
+            int pickCard = Random.Range(0, (_enemyHand.Count - 1));
+            AbilityCard enemyCard = _enemyHand.GetCard(pickCard);
+            if(enemyCard.Type == "Attack")
+            {
+                target.TargetPlayer();
+            }
+            else
+            {
+                target.TargetEnemy();
+            }
+            Debug.Log(enemyCard.Name);
+            enemyCard.Play();
+            _enemyHand.Remove(pickCard);
+            _abilityDiscard.Add(enemyCard);
+        }
+        target.targetSelected = false;
+    }
+
+    private void PrintEnemyHand()
     {
         for (int i = 0; i < _enemyHand.Count; i++)
         {

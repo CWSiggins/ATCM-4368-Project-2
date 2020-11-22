@@ -6,35 +6,35 @@ using UnityEngine.UI;
 public class AbilityCardView : MonoBehaviour
 {
     [SerializeField] Text _nameTextUI1 = null;
-    [SerializeField] Text _costTextUI1 = null;
+    [SerializeField] Text _typeTextUI1 = null;
     [SerializeField] Image _graphicUI1 = null;
 
     [SerializeField] Text _nameTextUI2 = null;
-    [SerializeField] Text _costTextUI2 = null;
+    [SerializeField] Text _typeTextUI2 = null;
     [SerializeField] Image _graphicUI2 = null;
 
     [SerializeField] Text _nameTextUI3 = null;
-    [SerializeField] Text _costTextUI3 = null;
+    [SerializeField] Text _typeTextUI3 = null;
     [SerializeField] Image _graphicUI3 = null;
 
     public void Display1(AbilityCard abilityCard)
     {
         _nameTextUI1.text = abilityCard.Name;
-        _costTextUI1.text = abilityCard.Cost.ToString();
+        _typeTextUI1.text = abilityCard.Type;
         _graphicUI1.sprite = abilityCard.Graphic;
     }
 
     public void Display2(AbilityCard abilityCard)
     {
         _nameTextUI2.text = abilityCard.Name;
-        _costTextUI2.text = abilityCard.Cost.ToString();
+        _typeTextUI2.text = abilityCard.Type;
         _graphicUI2.sprite = abilityCard.Graphic;
     }
 
     public void Display3(AbilityCard abilityCard)
     {
         _nameTextUI3.text = abilityCard.Name;
-        _costTextUI3.text = abilityCard.Cost.ToString();
+        _typeTextUI3.text = abilityCard.Type;
         _graphicUI3.sprite = abilityCard.Graphic;
     }
 }
