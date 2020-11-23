@@ -16,6 +16,10 @@ public class DeckTester : MonoBehaviour
     [SerializeField] GameObject card1Panel;
     [SerializeField] GameObject card2Panel;
     [SerializeField] GameObject card3Panel;
+    [SerializeField] GameObject deckPanel;
+    [SerializeField] GameObject card1Node;
+    [SerializeField] GameObject card2Node;
+    [SerializeField] GameObject card3Node;
     [SerializeField] Button card1Button;
     [SerializeField] Button card2Button;
     [SerializeField] Button card3Button;
@@ -23,7 +27,15 @@ public class DeckTester : MonoBehaviour
     [SerializeField] Text deckCount;
     [SerializeField] Text discardCount;
 
+    [SerializeField] GameObject enemyCard1;
+    [SerializeField] GameObject enemyCard2;
+    [SerializeField] GameObject enemyCard3;
+    [SerializeField] GameObject enemyCard1Node;
+    [SerializeField] GameObject enemyCard2Node;
+    [SerializeField] GameObject enemyCard3Node;
+
     [SerializeField] TargetController target;
+    [SerializeField] PlayerTurnCardGameState playerTurnNumber;
 
     public bool _cardIsPlayed;
 
@@ -57,6 +69,7 @@ public class DeckTester : MonoBehaviour
         discardCount.text = ("" + _abilityDiscard.Count);
 
         Display();
+        EnemyDisplay();
     }
 
     private void SetupAbilityDeck()
@@ -112,6 +125,30 @@ public class DeckTester : MonoBehaviour
         }
     }
 
+    private void EnemyDisplay()
+    {
+        if(_enemyHand.Count == 0)
+        {
+            enemyCard1.SetActive(false);
+            enemyCard2.SetActive(false);
+            enemyCard3.SetActive(false);
+        }
+
+        if(_enemyHand.Count == 2)
+        {
+            enemyCard1.SetActive(true);
+            enemyCard2.SetActive(true);
+            enemyCard3.SetActive(false);
+        }
+
+        if(_enemyHand.Count == 3)
+        {
+            enemyCard1.SetActive(true);
+            enemyCard2.SetActive(true);
+            enemyCard3.SetActive(true);
+        }
+    }
+
     private void Draw()
     {
         if (_playerHand.Count < 3)
@@ -119,6 +156,7 @@ public class DeckTester : MonoBehaviour
             AbilityCard newCard = _abilityDeck.Draw(DeckPosition.Top);
             Debug.Log("Draw card: " + newCard.Name);
             _playerHand.Add(newCard, DeckPosition.Top);
+            DrawAnimation();
         }
 
         if (_abilityDeck.Count == 0)
@@ -140,6 +178,7 @@ public class DeckTester : MonoBehaviour
             AbilityCard newCard = _abilityDeck.Draw(DeckPosition.Top);
             Debug.Log("Enemy draws card: " + newCard.Name);
             _enemyHand.Add(newCard, DeckPosition.Top);
+            EnemyDrawAnimation();
         }
 
         if (_abilityDeck.Count == 0)
@@ -180,6 +219,76 @@ public class DeckTester : MonoBehaviour
         for (int i = 0; i < _enemyHand.Count; i++)
         {
             Debug.Log("Enemy Hand Card: " + _enemyHand.GetCard(i).Name);
+        }
+    }
+
+    void EnemyDrawAnimation()
+    {
+        if(_enemyHand.Count == 3)
+        {
+            if(playerTurnNumber._playerTurnCount > 1)
+            {
+                enemyCard3.transform.position = deckPanel.transform.position;
+                enemyCard3.transform.localScale = deckPanel.transform.localScale;
+                LeanTween.move(enemyCard1, enemyCard1Node.transform.position, 0.5f);
+                LeanTween.scale(enemyCard1, enemyCard1Node.transform.localScale, 0.5f);
+                LeanTween.move(enemyCard2, enemyCard2Node.transform.position, 0.5f);
+                LeanTween.scale(enemyCard2, enemyCard2Node.transform.localScale, 0.5f);
+                LeanTween.move(enemyCard3, enemyCard3Node.transform.position, 0.5f);
+                LeanTween.scale(enemyCard3, enemyCard3Node.transform.localScale, 0.5f);
+            }
+            else
+            {
+                enemyCard1.transform.position = deckPanel.transform.position;
+                enemyCard1.transform.localScale = deckPanel.transform.localScale;
+                enemyCard2.transform.position = deckPanel.transform.position;
+                enemyCard2.transform.localScale = deckPanel.transform.localScale;
+                enemyCard3.transform.position = deckPanel.transform.position;
+                enemyCard3.transform.localScale = deckPanel.transform.localScale;
+                LeanTween.move(enemyCard1, enemyCard1Node.transform.position, 0.5f);
+                LeanTween.scale(enemyCard1, enemyCard1Node.transform.localScale, 0.5f);
+                LeanTween.move(enemyCard2, enemyCard2Node.transform.position, 0.5f);
+                LeanTween.scale(enemyCard2, enemyCard2Node.transform.localScale, 0.5f);
+                LeanTween.move(enemyCard3, enemyCard3Node.transform.position, 0.5f);
+                LeanTween.scale(enemyCard3, enemyCard3Node.transform.localScale, 0.5f);
+            }
+        }
+    }
+
+    void DrawAnimation()
+    {
+        if (_playerHand.Count == 0)
+        {
+            card1Panel.transform.position = deckPanel.transform.position;
+            card1Panel.transform.localScale = deckPanel.transform.localScale;
+        }
+
+        if (_playerHand.Count == 1)
+        {
+            card1Panel.transform.position = deckPanel.transform.position;
+            card1Panel.transform.localScale = deckPanel.transform.localScale;
+            LeanTween.move(card1Panel, card1Node.transform.position, 0.5f);
+            LeanTween.scale(card1Panel, card1Node.transform.localScale, 0.5f);
+            card2Panel.transform.position = deckPanel.transform.position;
+            card2Panel.transform.localScale = deckPanel.transform.localScale;
+            card3Panel.transform.position = deckPanel.transform.position;
+            card3Panel.transform.localScale = deckPanel.transform.localScale;
+        }
+
+        if (_playerHand.Count == 2)
+        {
+            LeanTween.move(card2Panel, card2Node.transform.position, 0.5f);
+            LeanTween.scale(card2Panel, card2Node.transform.localScale, 0.5f);
+            card3Panel.transform.position = deckPanel.transform.position;
+            card3Panel.transform.localScale = deckPanel.transform.localScale;
+        }
+
+        if (_playerHand.Count == 3)
+        {
+            card3Panel.transform.position = deckPanel.transform.position;
+            card3Panel.transform.localScale = deckPanel.transform.localScale;
+            LeanTween.move(card3Panel, card3Node.transform.position, 0.5f);
+            LeanTween.scale(card3Panel, card3Node.transform.localScale, 0.5f);
         }
     }
 

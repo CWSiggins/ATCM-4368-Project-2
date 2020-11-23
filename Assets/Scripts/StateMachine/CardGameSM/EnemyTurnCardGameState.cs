@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class EnemyTurnCardGameState : CardGameState
@@ -8,7 +9,7 @@ public class EnemyTurnCardGameState : CardGameState
     public static event Action EnemyTurnBegan;
     public static event Action EnemyTurnEnded;
 
-    [SerializeField] float _pauseDuration = 1.5f;
+    [SerializeField] float _pauseDuration = 2f;
 
     [SerializeField] PlayerStats _player;
 
@@ -16,11 +17,20 @@ public class EnemyTurnCardGameState : CardGameState
 
     [SerializeField] DeckTester _deck;
 
+    [SerializeField] GameObject _enemyThinking;
+    [SerializeField] GameObject enemyTurnNode;
+    [SerializeField] GameObject node2;
+
+    public void Start()
+    {
+        _enemyThinking.transform.position = node2.transform.position;
+    }
+
     public override void Enter()
     {
         Debug.Log("Enemy Turn: ...Enter");
         EnemyTurnBegan?.Invoke();
-
+        LeanTween.move(_enemyThinking, enemyTurnNode.transform.position, 1);
         _deck.EnemyDraw();
         StartCoroutine(EnemyThinkingRoutine(_pauseDuration));
     }
@@ -28,6 +38,8 @@ public class EnemyTurnCardGameState : CardGameState
     public override void Exit()
     {
         Debug.Log("Enemy Turn: Exit...");
+        LeanTween.move(_enemyThinking, node2.transform.position, 1);
+        StartCoroutine("ResetText");
     }
 
     public void Update()
@@ -41,6 +53,12 @@ public class EnemyTurnCardGameState : CardGameState
         {
             StateMachine.ChangeState<WinCardGameState>();
         }
+    }
+
+    IEnumerator ResetText()
+    {
+        yield return new WaitForSeconds(1);
+        _enemyThinking.transform.position = node2.transform.position;
     }
 
     IEnumerator EnemyThinkingRoutine(float pauseDuration)

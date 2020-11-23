@@ -11,6 +11,12 @@ public class PlayerStats : MonoBehaviour, ITargetable, IHealable, IDamageable
     [SerializeField] Text _healthText;
     [SerializeField] Text _shieldText;
 
+    public void Start()
+    {
+        _shieldText.color = Color.blue;
+        _healthText.color = Color.green;
+    }
+
     public void Update()
     {
         _healthText.text = ("Player Health: " + _currentHealth);
@@ -32,8 +38,16 @@ public class PlayerStats : MonoBehaviour, ITargetable, IHealable, IDamageable
     {
         if(_shield > 0)
         {
+            if (damage > _shield)
+            {
+                int damageLeft = damage - _shield;
+                _shield -= damage;
+                _currentHealth -= damageLeft;
+                HealthDamageFeedback();
+            }
             _shield -= damage;
-            if(_shield <= 0)
+            ShieldDamageFeedback();
+            if (_shield <= 0)
             {
                 _shield = 0;
                 Debug.Log("Your shield is depleted");
@@ -42,12 +56,22 @@ public class PlayerStats : MonoBehaviour, ITargetable, IHealable, IDamageable
         else
         {
             _currentHealth -= damage;
-            Debug.Log("Took damage. Remaining Health:  " + _currentHealth);
+            HealthDamageFeedback();
         }
         if (_currentHealth <= 0)
         {
             Kill();
         }
+    }
+
+    private void HealthDamageFeedback()
+    {
+        StartCoroutine("HealthDamage");
+    }
+
+    private void ShieldDamageFeedback()
+    {
+        StartCoroutine("ShieldDamage");
     }
 
     public void Target()
@@ -58,5 +82,22 @@ public class PlayerStats : MonoBehaviour, ITargetable, IHealable, IDamageable
     public void Kill()
     {
         _currentHealth = 0;
+    }
+
+    IEnumerator ShieldDamage()
+    {
+        LeanTween.colorText(_shieldText.rectTransform, Color.red, 0.5f);
+        LeanTween.scale(_shieldText.rectTransform, new Vector3(0.9f, 0.9f, 0.9f), 0.5f);
+        yield return new WaitForSeconds(1);
+        LeanTween.colorText(_shieldText.rectTransform, Color.blue, 0.5f);
+        LeanTween.scale(_shieldText.rectTransform, new Vector3(0.75f, 0.75f, 0.75f), 0.5f);
+    }
+    IEnumerator HealthDamage()
+    {
+        LeanTween.colorText(_healthText.rectTransform, Color.red, 0.5f);
+        LeanTween.scale(_healthText.rectTransform, new Vector3(0.9f, 0.9f, 0.9f), 0.5f);
+        yield return new WaitForSeconds(1);
+        LeanTween.colorText(_healthText.rectTransform, Color.green, 0.5f);
+        LeanTween.scale(_healthText.rectTransform, new Vector3(0.75f, 0.75f, 0.75f), 0.5f);
     }
 }
