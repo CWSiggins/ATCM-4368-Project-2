@@ -37,6 +37,18 @@ public class DeckTester : MonoBehaviour
     [SerializeField] TargetController target;
     [SerializeField] PlayerTurnCardGameState playerTurnNumber;
 
+    [SerializeField] GameObject playerLaserToken;
+    [SerializeField] GameObject playerMedToken;
+    [SerializeField] GameObject playerShieldToken;
+    [SerializeField] GameObject enemyLaserToken;
+    [SerializeField] GameObject enemyMedToken;
+    [SerializeField] GameObject enemyShieldToken;
+
+    [SerializeField] GameObject playerPlacement;
+    [SerializeField] GameObject enemyPlacement;
+    [SerializeField] GameObject playerPlacementNode;
+    [SerializeField] GameObject enemyPlacementNode;
+
     public bool _cardIsPlayed;
 
     private void Start()
@@ -51,6 +63,13 @@ public class DeckTester : MonoBehaviour
         card1Panel.SetActive(false);
         card2Panel.SetActive(false);
         card3Panel.SetActive(false);
+
+        playerLaserToken.SetActive(false);
+        playerMedToken.SetActive(false);
+        playerShieldToken.SetActive(false);
+        enemyLaserToken.SetActive(false);
+        enemyMedToken.SetActive(false);
+        enemyShieldToken.SetActive(false);
 
         card1Button.onClick.AddListener(PlayCard1);
         card2Button.onClick.AddListener(PlayCard2);
@@ -196,19 +215,41 @@ public class DeckTester : MonoBehaviour
     {
         if(_enemyHand.Count == 3)
         {
+            GameObject cardToPlay = null;
             int pickCard = Random.Range(0, (_enemyHand.Count - 1));
             AbilityCard enemyCard = _enemyHand.GetCard(pickCard);
-            if(enemyCard.Type == "Attack")
+
+            if (pickCard == 0)
+            {
+                cardToPlay = enemyCard1;
+            }
+            else if (pickCard == 1)
+            {
+                cardToPlay = enemyCard2;
+            }
+            else if (pickCard == 2)
+            {
+                cardToPlay = enemyCard3;
+            }
+
+            if (enemyCard.Type == "Attack")
             {
                 target.TargetPlayer();
+                StartCoroutine(EnemyAttack(pickCard, cardToPlay));
             }
-            else
+            else if (enemyCard.Type == "Defend")
             {
                 target.TargetEnemy();
+                StartCoroutine(EnemyDefend(pickCard, cardToPlay));
             }
+            else if (enemyCard.Type == "Heal")
+            {
+                target.TargetEnemy();
+                StartCoroutine(EnemyHeal(pickCard, cardToPlay));
+            }
+
             Debug.Log(enemyCard.Name);
             enemyCard.Play();
-            _enemyHand.Remove(pickCard);
             _abilityDiscard.Add(enemyCard);
         }
         target.targetSelected = false;
@@ -300,8 +341,18 @@ public class DeckTester : MonoBehaviour
             {
                 AbilityCard playerCard1 = _playerHand.GetCard(0);
                 playerCard1.Play();
-                //TODO consider expanding Remove to accept a deck position
-                _playerHand.Remove(_playerHand.FirstIndex);
+                if(playerCard1.Type == "Attack")
+                {
+                    StartCoroutine(PlayerAttack(_playerHand.FirstIndex, card1Panel));
+                }
+                else if (playerCard1.Type == "Defend")
+                {
+                    StartCoroutine(PlayerDefend(_playerHand.FirstIndex, card1Panel));
+                }
+                else if (playerCard1.Type == "Heal")
+                {
+                    StartCoroutine(PlayerHeal(_playerHand.FirstIndex, card1Panel));
+                }
                 _abilityDiscard.Add(playerCard1);
                 Debug.Log("Card added to discard: " + playerCard1.Name);
                 target.targetSelected = false;
@@ -323,8 +374,18 @@ public class DeckTester : MonoBehaviour
             {
                 AbilityCard playerCard2 = _playerHand.GetCard(1);
                 playerCard2.Play();
-                //TODO consider expanding Remove to accept a deck position
-                _playerHand.Remove(1);
+                if (playerCard2.Type == "Attack")
+                {
+                    StartCoroutine(PlayerAttack(1, card2Panel));
+                }
+                else if (playerCard2.Type == "Defend")
+                {
+                    StartCoroutine(PlayerDefend(1, card2Panel));
+                }
+                else if (playerCard2.Type == "Heal")
+                {
+                    StartCoroutine(PlayerHeal(1, card2Panel));
+                }
                 _abilityDiscard.Add(playerCard2);
                 Debug.Log("Card added to discard: " + playerCard2.Name);
                 target.targetSelected = false;
@@ -346,8 +407,18 @@ public class DeckTester : MonoBehaviour
             {
                 AbilityCard playerCard3 = _playerHand.GetCard(2);
                 playerCard3.Play();
-                //TODO consider expanding Remove to accept a deck position
-                _playerHand.Remove(_playerHand.LastIndex);
+                if (playerCard3.Type == "Attack")
+                {
+                    StartCoroutine(PlayerAttack(_playerHand.LastIndex, card3Panel));
+                }
+                else if (playerCard3.Type == "Defend")
+                {
+                    StartCoroutine(PlayerDefend(_playerHand.LastIndex, card3Panel));
+                }
+                else if (playerCard3.Type == "Heal")
+                {
+                    StartCoroutine(PlayerHeal(_playerHand.LastIndex, card3Panel));
+                }
                 _abilityDiscard.Add(playerCard3);
                 Debug.Log("Card added to discard: " + playerCard3.Name);
                 target.targetSelected = false;
@@ -359,5 +430,125 @@ public class DeckTester : MonoBehaviour
             Debug.Log("No target is selected...");
             Debug.Log("Or you have already played a card this turn");
         }
+    }
+
+    IEnumerator PlayerAttack(int cardNumber, GameObject card)
+    {
+        LeanTween.rotateX(card, 45, 0.5f);
+        LeanTween.move(card, playerPlacementNode.transform.position, 0.5f);
+        yield return new WaitForSeconds(1);
+        //TODO consider expanding Remove to accept a deck position
+        _playerHand.Remove(cardNumber);
+        playerLaserToken.SetActive(true);
+        LeanTween.rotateX(card, 0, 0.5f);
+        LeanTween.rotateX(playerLaserToken, -25, 0.5f);
+        yield return new WaitForSeconds(1);
+        LeanTween.rotateX(playerLaserToken, 0, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        playerLaserToken.SetActive(false);
+    }
+
+    IEnumerator EnemyAttack(int cardNumber, GameObject card)
+    {
+        LeanTween.rotateX(card, 45, 0.5f);
+        LeanTween.move(card, enemyPlacementNode.transform.position, 0.5f);
+        yield return new WaitForSeconds(1);
+        if(cardNumber == 0)
+        {
+            card.transform.position = enemyCard1Node.transform.position;
+        }
+        if(cardNumber == 1 || cardNumber == 2)
+        {
+            card.transform.position = enemyCard2Node.transform.position;
+        }
+        //TODO consider expanding Remove to accept a deck position
+        _enemyHand.Remove(cardNumber);
+        enemyLaserToken.SetActive(true);
+        LeanTween.rotateX(card, 0, 0.5f);
+        LeanTween.rotateX(enemyLaserToken, -25, 0.5f);
+        yield return new WaitForSeconds(1);
+        LeanTween.rotateX(enemyLaserToken, 0, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        enemyLaserToken.SetActive(false);
+    }
+
+    IEnumerator PlayerDefend(int cardNumber, GameObject card)
+    {
+        LeanTween.rotateX(card, 45, 0.5f);
+        LeanTween.move(card, playerPlacementNode.transform.position, 0.5f);
+        yield return new WaitForSeconds(1);
+        //TODO consider expanding Remove to accept a deck position
+        _playerHand.Remove(cardNumber);
+        playerShieldToken.SetActive(true);
+        LeanTween.rotateX(card, 0, 0.5f);
+        LeanTween.scale(playerShieldToken, new Vector3(50, 50, 50), 0.5f);
+        yield return new WaitForSeconds(1);
+        LeanTween.scale(playerShieldToken, new Vector3(39.41103f, 39.41103f, 39.41103f), 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        playerShieldToken.SetActive(false);
+    }
+
+    IEnumerator EnemyDefend(int cardNumber, GameObject card)
+    {
+        LeanTween.rotateX(card, 45, 0.5f);
+        LeanTween.move(card, enemyPlacementNode.transform.position, 0.5f);
+        yield return new WaitForSeconds(1);
+        if (cardNumber == 0)
+        {
+            card.transform.position = enemyCard1Node.transform.position;
+        }
+        if (cardNumber == 1 || cardNumber == 2)
+        {
+            card.transform.position = enemyCard2Node.transform.position;
+        }
+        //TODO consider expanding Remove to accept a deck position
+        _enemyHand.Remove(cardNumber);
+        enemyShieldToken.SetActive(true);
+        LeanTween.rotateX(card, 0, 0.5f);
+        LeanTween.scale(enemyShieldToken, new Vector3(50, 50, 50), 0.5f);
+        yield return new WaitForSeconds(1);
+        LeanTween.scale(enemyShieldToken, new Vector3(39.41103f, 39.41103f, 39.41103f), 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        enemyShieldToken.SetActive(false);
+    }
+
+    IEnumerator PlayerHeal(int cardNumber, GameObject card)
+    {
+        LeanTween.rotateX(card, 45, 0.5f);
+        LeanTween.move(card, playerPlacementNode.transform.position, 0.5f);
+        yield return new WaitForSeconds(1);
+        //TODO consider expanding Remove to accept a deck position
+        _playerHand.Remove(cardNumber);
+        playerMedToken.SetActive(true);
+        LeanTween.rotateX(card, 0, 0.5f);
+        LeanTween.scale(playerMedToken, new Vector3(70, 70, 70), 0.5f);
+        yield return new WaitForSeconds(1);
+        LeanTween.scale(playerMedToken, new Vector3(60.81615f, 60.81615f, 60.81615f), 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        playerMedToken.SetActive(false);
+    }
+
+    IEnumerator EnemyHeal(int cardNumber, GameObject card)
+    {
+        LeanTween.rotateX(card, 45, 0.5f);
+        LeanTween.move(card, enemyPlacementNode.transform.position, 0.5f);
+        yield return new WaitForSeconds(1);
+        if (cardNumber == 0)
+        {
+            card.transform.position = enemyCard1Node.transform.position;
+        }
+        if (cardNumber == 1 || cardNumber == 2)
+        {
+            card.transform.position = enemyCard2Node.transform.position;
+        }
+        //TODO consider expanding Remove to accept a deck position
+        _enemyHand.Remove(cardNumber);
+        enemyMedToken.SetActive(true);
+        LeanTween.rotateX(card, 0, 0.5f);
+        LeanTween.scale(enemyMedToken, new Vector3(70, 70, 70), 0.5f);
+        yield return new WaitForSeconds(1);
+        LeanTween.scale(enemyMedToken, new Vector3(60.81615f, 60.81615f, 60.81615f), 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        enemyMedToken.SetActive(false);
     }
 }
