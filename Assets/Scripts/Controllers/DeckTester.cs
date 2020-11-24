@@ -91,6 +91,11 @@ public class DeckTester : MonoBehaviour
             PrintEnemyHand();
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         deckCount.text = ("" + _abilityDeck.Count);
         discardCount.text = ("" + _abilityDiscard.Count);
 
