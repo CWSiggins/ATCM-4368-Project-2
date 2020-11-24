@@ -9,6 +9,8 @@ public class SetupCardGameState : CardGameState
 
     bool _activated = false;
 
+    [SerializeField] AudioClip shuffle;
+
     public override void Enter()
     {
         Debug.Log("Setup: ...Entering");
@@ -17,6 +19,7 @@ public class SetupCardGameState : CardGameState
         //CAN'T change state while still in Enter()/Exit() transition!
         //DON'T put ChangeState() here
         _activated = false;
+        AudioHelper.PlayClip2D(shuffle, 1f);
     }
 
     public override void Tick()

@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Max Med-Pack
   _type: Heal
+  _amount: 15
   _graphic: {fileID: 21300000, guid: 0c811f8c6ac2cf9428e1d098175d8433, type: 3}
   _playEffect: {fileID: 11400000, guid: 8e1d266334226c345b64ba523d054857, type: 2}

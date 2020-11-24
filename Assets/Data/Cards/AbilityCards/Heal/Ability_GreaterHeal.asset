@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Advanced Med-Pack
   _type: Heal
+  _amount: 10
   _graphic: {fileID: 21300000, guid: 0c811f8c6ac2cf9428e1d098175d8433, type: 3}
   _playEffect: {fileID: 11400000, guid: e55c825b0f9fc8f45aed8f708829dcb6, type: 2}

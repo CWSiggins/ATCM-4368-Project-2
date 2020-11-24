@@ -5,6 +5,8 @@ using UnityEngine;
 public class AbilityCard : Card
 {
     public string Type { get; private set; }
+    
+    public string Amount { get; private set; }
     public Sprite Graphic { get; private set; }
     public CardPlayEffect PlayEffect { get; private set; }
 
@@ -12,6 +14,7 @@ public class AbilityCard : Card
     {
         Name = Data.Name;
         Type = Data.Type;
+        Amount = Data.Amount;
         Graphic = Data.Graphic;
         PlayEffect = Data.PlayEffect;
     }

@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Laser Gun
   _type: Attack
+  _amount: 10
   _graphic: {fileID: 21300000, guid: 6fc0969dabeecad4b9ced56dd99f6ac8, type: 3}
   _playEffect: {fileID: 11400000, guid: 0f8b8605c6dda534e8be60af97cba6df, type: 2}

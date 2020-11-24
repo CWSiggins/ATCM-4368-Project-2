@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Improved Shield
   _type: Defend
+  _amount: 10
   _graphic: {fileID: 21300000, guid: fd57eea6080501f48b40107678962054, type: 3}
   _playEffect: {fileID: 11400000, guid: 8ec4e198a4ab7f443bd74cfa8c9f7e01, type: 2}

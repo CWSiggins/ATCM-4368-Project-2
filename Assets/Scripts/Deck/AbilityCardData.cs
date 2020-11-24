@@ -11,6 +11,9 @@ public class AbilityCardData : ScriptableObject
     [SerializeField] string _type = "...";
     public string Type => _type;
 
+    [SerializeField] string _amount = "...";
+    public string Amount => _amount;
+
     [SerializeField] Sprite _graphic = null;
     public Sprite Graphic => _graphic;
 

@@ -8,6 +8,6 @@ public class CardGameSM : StateMachine
     public InputController Input => _input;
     void Start()
     {
-        ChangeState<SetupCardGameState>();
+        ChangeState<MenuCardGameState>();
     }
 }

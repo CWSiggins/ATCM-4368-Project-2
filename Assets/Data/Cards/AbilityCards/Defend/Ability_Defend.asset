@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Laser Shield
   _type: Defend
+  _amount: 5
   _graphic: {fileID: 21300000, guid: fd57eea6080501f48b40107678962054, type: 3}
   _playEffect: {fileID: 11400000, guid: 0554232d235b208458a722fe88a251c0, type: 2}

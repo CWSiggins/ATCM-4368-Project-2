@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Med-Pack
   _type: Heal
+  _amount: 5
   _graphic: {fileID: 21300000, guid: 0c811f8c6ac2cf9428e1d098175d8433, type: 3}
   _playEffect: {fileID: 11400000, guid: de74de37f299e084dba68db386f9e908, type: 2}

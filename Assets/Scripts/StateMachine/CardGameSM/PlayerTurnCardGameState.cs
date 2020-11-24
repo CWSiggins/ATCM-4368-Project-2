@@ -21,6 +21,8 @@ public class PlayerTurnCardGameState : CardGameState
     [SerializeField] GameObject endTurnNode;
     [SerializeField] GameObject node1;
 
+    [SerializeField] AudioClip transition;
+
     public void Start()
     {
         _playerTurn.transform.position = node1.transform.position;
@@ -37,6 +39,7 @@ public class PlayerTurnCardGameState : CardGameState
         LeanTween.move(_endTurn, endTurnNode.transform.position, 1);
         //hook into events
         StateMachine.Input.PressedConfirm += OnPressedConfirm;
+        AudioHelper.PlayClip2D(transition, 1f);
     }
 
     public override void Exit()

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edddf67812f54e544830168b5c9c2e5b, type: 3}
   m_Name: GreaterHeal_PlayEffect
   m_EditorClassIdentifier: 
-  _healAmount: 5
+  _healAmount: 10

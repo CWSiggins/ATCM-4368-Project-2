@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4db9d95b096f8074b9aa53b4fa028df3, type: 3}
   m_Name: ChargedAttack_PlayEffect
   m_EditorClassIdentifier: 
-  _damageAmount: 15
+  _damageAmount: 20

@@ -21,6 +21,8 @@ public class EnemyTurnCardGameState : CardGameState
     [SerializeField] GameObject enemyTurnNode;
     [SerializeField] GameObject node2;
 
+    [SerializeField] AudioClip transition;
+
     public void Start()
     {
         _enemyThinking.transform.position = node2.transform.position;
@@ -33,6 +35,7 @@ public class EnemyTurnCardGameState : CardGameState
         LeanTween.move(_enemyThinking, enemyTurnNode.transform.position, 1);
         _deck.EnemyDraw();
         StartCoroutine(EnemyThinkingRoutine(_pauseDuration));
+        AudioHelper.PlayClip2D(transition, 1f);
     }
 
     public override void Exit()

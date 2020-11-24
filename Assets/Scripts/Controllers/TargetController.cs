@@ -14,6 +14,8 @@ public class TargetController : MonoBehaviour
     [SerializeField] Button _targetEnemy;
     [SerializeField] Button _targetSelf;
 
+    [SerializeField] AudioClip target;
+
     public bool targetSelected;
 
     private void Start()
@@ -28,6 +30,7 @@ public class TargetController : MonoBehaviour
         ITargetable possibleTarget = _enemy.GetComponent<ITargetable>();
         if (possibleTarget != null)
         {
+            AudioHelper.PlayClip2D(target, 1f);
             Debug.Log("New target acquired!");
             CurrentTarget = possibleTarget;
             _enemy.Target();
@@ -41,6 +44,7 @@ public class TargetController : MonoBehaviour
         ITargetable possibleTarget = _player.GetComponent<ITargetable>();
         if (possibleTarget != null)
         {
+            AudioHelper.PlayClip2D(target, 1f);
             Debug.Log("New target acquired!");
             CurrentTarget = possibleTarget;
             _player.Target();
